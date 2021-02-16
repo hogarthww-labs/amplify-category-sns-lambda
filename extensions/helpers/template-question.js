@@ -37,31 +37,12 @@ async function createNewSnsTopic(context){
 async function getLambdaDetails(context){
     const { amplify } = context;
     const inputs = questions.template.inputs;
-    let index = questionNames.indexOf('addConsumerLambda')
-    let input = inputs[index]    
-    const questions = [
-        {
-          type: inputs.type,
-          name: 'addConsumerLambda',
-          message: inputs.question,
-          validate: amplify.inputValidation(input),
-          default: 'consumer',
-    }];
-    let answers = await inquirer.prompt(questions);
-    let { addConsumerLambda } = answers
-
-    if (!addConsumerLambda) {
-        return {
-            addConsumerLambda,
-        }
-    }
-
     let index = questionNames.indexOf('lambdaName')
     let input = inputs[index]    
     const lambdaQ = {
-          type: inputs.type,
+          type: input.type,
           name: 'lambdaName',
-          message: inputs.question,
+          message: input.question,
           validate: amplify.inputValidation(input),
           default: 'consumer',
     };
@@ -69,9 +50,10 @@ async function getLambdaDetails(context){
     let index = questionNames.indexOf('runtime')
     let input = inputs[index]    
     const runtimeQ = {
-          type: inputs.type,
+          type: input.type,
           name: 'runtime',
-          message: inputs.question,
+          message: input.question,
+          options: input.options,
           validate: amplify.inputValidation(input),
           default: 'nodejs12.x',
     };
@@ -145,12 +127,7 @@ async function generateQuestions(context, rootTemplate){
 }
 
 module.exports = {
-    generateQuestions,
-    subscribeToExistingSnsTopic,
+    generateQuestions,    
     createNewSnsTopic,
-    getSNSProducerDetails,
-    getSNSConsumerDetails,
-    getConsumerPolicyDetails,
-    getProducerPolicyDetails,
     getLambdaDetails
 }
