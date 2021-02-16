@@ -4,6 +4,36 @@ const fs = require('fs');
 
 const questionNames = questions.map(q => q.name)
 
+async function createNewSnsTopic(context){
+    const { amplify } = context;
+    const inputs = questions.template.inputs;
+    let index = questionNames.indexOf('snsDisplayName')
+    let input = inputs[index]
+    let questions = [
+        {
+          type: input.type,
+          name: 'snsDisplayName',
+          message: input.question,
+          validate: amplify.inputValidation(input),
+          default: input.default,
+    }];
+
+    let index = questionNames.indexOf('snsTopicName')
+    let input = inputs[index]
+    questions = [
+        ...questions,
+        {
+          type: input.type,
+          name: input.name,
+          message: input.question,
+          validate: amplify.inputValidation(input),
+          default: input.default,
+    }];
+    return await inquirer.prompt(questions); 
+}
+
+
+
 async function getLambdaDetails(context){
     const { amplify } = context;
     const inputs = questions.template.inputs;
