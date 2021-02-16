@@ -32,22 +32,34 @@ Note that you can apply this template on an existing function generated via ampl
 
 The resource will assume the function codes can be found in `./src` relative to the template, such as in `./src/index.js` for nodejs lambda code.
 
-## SQS usage
+## What it does
 
-You can use the [sqs-utils](https://github.com/hogarthww-labs/sqs-utils) module to facilitate working with SQS, including [Producer](https://www.npmjs.com/package/sqs-producer) and [Consumer](https://www.npmjs.com/package/sqs-consumer).
+- Creates an SNS Topic
+- Creates a Lambda Function
+- Allows the SNS Topic to call the Lambda Function
+- Allow set of resources (by default all) in your AWS Account to send a message to the SNS topic
 
-## Managing access to SQS queues
+## Questions
 
-There are two ways to give your users permissions to your Amazon SQS queues: using the Amazon SQS policy system and using the IAM policy system. You can use either system, or both, to attach policies to users or roles. In most cases, you can achieve the same result using either system.
+## SNS Display Name
 
-### Resources
+The display name (in AWS Console and such) for the SNS topic. Can be any string.
 
-- [IAM Identities (users, groups, and roles)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html)
-- [Using identity-based policies with Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-using-identity-based-policies.html)
-- [Overview of managing access in Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-overview-of-managing-access.html)
-- [Basic examples of IAM policies for Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-basic-examples-of-iam-policies.html)
+## SNS Topic Name
 
-## Runtimes
+The logical name of the SNS topic (programatic identifier). Must be alphanumerical (`[a-zA-Z0-9]`)
+
+### Name for your lambda function
+
+The logical name of the lambda function triggered by SNS messages (programatic identifier). Must be alphanumerical without dashes or underscores (`[a-zA-Z0-9]`)
+
+### Source ARN for your policy
+
+The source ARN for which your policy applies. By default `*` (all resources) which should only be used for development/testing as this allows any AWS resource to send a message to the SNS topic.
+
+In practice you should limit this to apply to one or more lambdas, SQS queues or similar resources.
+
+### Runtime
 
 [Lambda runtime values](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)
 
@@ -64,6 +76,6 @@ Currently the CLI only supports the following values:
 
 You can manually edit the generated template, searching for runtime and substitute as needed.
 
-## Timeout
+### Timeout
 
 You can specify the timeout for the lambda. The default is `60` for 60 seconds (1 minute)

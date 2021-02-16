@@ -1,4 +1,4 @@
-const featureName = 'sqs triggered lambda';
+const featureName = 'sns triggered lambda';
 
 module.exports = {
   name: featureName,
