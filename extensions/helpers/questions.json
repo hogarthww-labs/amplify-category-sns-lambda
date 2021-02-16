@@ -1,0 +1,68 @@
+{
+  "template": {
+    "inputs": [
+      {
+        "key": "snsTopicName",
+        "question": "Provide a friendly name for your SNS topic resource:",
+        "validation": {
+          "operator": "regex",
+          "value": "^[a-zA-Z0-9]+$",
+          "onErrorMsg": "Resource name should be alphanumeric"
+        },
+        "required": true
+      },
+      {
+        "key": "snsDisplayName",
+        "question": "Provide a friendly display name for your SNS topic resource:",
+        "required": false
+      },
+      {
+        "key": "lambdaName",
+        "question": "Provide a friendly name for your Lambda resource:",
+        "validation": {
+          "operator": "regex",
+          "value": "^[a-zA-Z0-9]+$",
+          "onErrorMsg": "Resource name should be alphanumeric"
+        },
+        "required": true
+      },
+      {
+        "key": "policySourceArn",
+        "question": "Specify the source ARN for your policy:",
+        "required": false,
+        "default": "*"
+      },
+      {
+        "key": "runtime",
+        "question": "Select the runtime for the lambda resource:",
+        "type": "list",
+        "options": [
+          {
+            "name": "NodeJS",
+            "value": "nodejs12.x"
+          },
+          {
+            "name": "Python 3.8",
+            "value": "python3.8"
+          },
+          {
+            "name": "Python 3.7",
+            "value": "python3.7"
+          },
+          {
+            "name": "Python 2.7",
+            "value": "python2.7"
+          }
+        ],
+        "required": true
+      },
+      {
+        "type": "number",
+        "key": "timeout",
+        "question": "What should be the timeout in secs for the Lambda resource:",
+        "required": true,
+        "default": 60
+      }
+    ]
+  }
+}

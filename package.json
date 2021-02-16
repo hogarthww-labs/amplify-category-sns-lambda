@@ -1,0 +1,32 @@
+{
+  "name": "amplify-category-sns-lambda",
+  "version": "1.1.0",
+  "description": "Deploy your own SNS trigger with lambda function resources",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hogarthww-labs/amplify-category-sns-lambda.git"
+  },
+  "keywords": [
+    "amplify",
+    "plugin",
+    "template",
+    "sqs"
+  ],
+  "author": "Kristian Mandrup",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/hogarthww-labs/amplify-category-sns-lambda/issues"
+  },
+  "homepage": "https://github.com/hogarthww-labs/amplify-category-sns-lambda#readme",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "inquirer": "^7.3.3",
+    "mime-types": "^2.1.27",
+    "path": "^0.12.7",
+    "yaml-cfn": "^0.2.3"
+  }
+}

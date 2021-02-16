@@ -1,0 +1,75 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "<%= snsTopicName %>-lambda-sns CloudFormation template to subscribe a lambda to an SNS Topic.\n",
+  "Resources": {
+    "<%= snsTopicName %>Topic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "DisplayName": {
+          "Sub": <%= snsDisplayName %>
+        },
+        "TopicName": {
+          "Sub": <%= snsTopicName %>
+        },
+        "Subscription": [
+          {
+            "Protocol": "lambda",
+            "Endpoint": {
+              "GetAtt": "<%= lambdaName %>.Arn"
+            }
+          }
+        ]
+      }
+    },
+    <%= lambdaName %>": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "CodeUri": "./",
+        "Handler": "index.handler",
+        "Runtime": "<%= runtime %>",
+        "Timeout": <%= timeout %>
+      }
+    },
+    "<%= snsTopicName %>FunctionInvokePermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Ref": "<%= lambdaName %>"
+        },
+        "Principal": "sns.amazonaws.com"
+      }
+    },
+    "<%= snsTopicName %>TopicPolicy": {
+      "Type": "AWS::SNS::TopicPolicy",
+      "Properties": {
+        "Topics": {
+          "Ref": "<%= snsTopicName %>"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "sns:Publish",
+              "Resource": {
+                "Ref": "<%= snsTopicName %>"
+              },
+              "Principal": {
+                "AWS": "*"
+              },
+              "Condition": {
+                "ArnLike": {
+                  "AWS:SourceArn": {
+                    "Sub": "arn:aws:*:*:${AWS::AccountId}:<%= policySourceArn %>"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
